@@ -18,21 +18,17 @@ The tmux session will then look like this.
 
    This new pane, the *sidepane*, is noted as being attached to the original pane, the *mainpane*. If you activate the key binding in a  pane that is neither of these it will create a new *sidepane* for **that** *mainpane*.
    
-   What man page is opened depends upon the state of the mainpane. 
-   
-   Examples:
+   What man page is opened depends upon the state of the mainpane. For Example:
 
     - If you're in a program, it will open up `man PROGRAM_NAME`
     
     - If you're in bash, it will use the information on the shell line.
-    
-      Examples
       
-      `$ ` (empty line) will result in `man bash` 
+      - `$ ` (empty line) will result in `man bash` 
       
-      `$ ls` will result in `man ls`
+      - `$ ls` will result in `man ls`
       
-      `$ ls -l` will result in `man ls`, and `tmux-sideman` will subsequently search the manpage for the flag `-l`
+      - `$ ls -l` will result in `man ls`, and `tmux-sideman` will subsequently search the manpage for the flag `-l`
     
 2. When you hit the key binding (`Prefix + M`) again, one of two things could happen.
 
