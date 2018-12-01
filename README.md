@@ -1,47 +1,92 @@
-# Tmux Sidelib
+# Tmux Sideman
 
-## Description
+Tmux-sideman is a plugin for tmux which, when the user hits `Prefix + M`, will create a new pane and open a relevant manpage on it.
 
-Tmux Sidelib is a bash script library meant to reduce the redundant work required to create tmux-plugins such as [tmux-sidelib](https://github.com/tmux-plugins/tmux-sidebar) or [tmux-notepane](https://github.com/alexsaalberg/tmux-notepane). These are plugins which open a useful program when activated via a tmux binding.
+It's built using [tmux sidelib](https://www.github.com/alexsaalberg/tmux-sidelib), a shell script library which can be used to easily create plugins in the same ilk.
+
+### Example
+
+If you are editing something in vim, and then hit `Prefix + M`, a new pane will open with the vim manpage in it.
+
+The tmux session will then look like this.
+
+![Example use screenshot](screen.png)
 
 ## How to use
 
-#### Use an example sideapp
+1. Hit the key binding (`Prefix + M`) to open up a manpage in a new pane next to the current one.
 
-1. Clone the repo
+   This new pane, the *sidepane*, is noted as being attached to the original pane, the *mainpane*. If you activate the key binding in a  pane that is neither of these it will create a new *sidepane* for **that** *mainpane*.
+   
+   What man page is opened depends upon the state of the mainpane. For Example:
 
-2. Copy a demo `sideapp.sh` program from [/demos](/demos) into [/scripts](/scripts).
-
-       cp /demos/note/sideapp.sh /scripts
-
-3. Enter tmux if you are not already
-
-       tmux
-
-4. Run `tmux_sidelib.tmux` (it's a shell script)
-
-       ./tmux_sidelib.tmux
+    - If you're in a program, it will open up `man PROGRAM_NAME`
     
-4. Hit P-N (Prefix + N)
+    - If you're in bash, it will use the information on the shell line.
+      
+      - `$ ` (empty line) will result in `man bash` 
+      
+      - `$ ls` will result in `man ls`
+      
+      - `$ ls -l` will result in `man ls`, and `tmux-sideman` will subsequently search the manpage for the flag `-l`
+    
+2. When you hit the key binding (`Prefix + M`) again, one of two things could happen.
 
-#### Create your own sideapp
+   - If you're in the same program, or the shell line is the same, the pane with man in it will be closed.
+   
+   - If you're in a different program, or the shell line has changed, it will update the sidepane. (Open a new manpage for the new program or shell line).
+   
+## How to install
 
-- [Sidelib Tutorial](/docs/sidelib_tutorial.md)
+### Installation with [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm) (recommended)
 
-- [`helpers.sh` documentation](/docs/helpers_sh.md)
+Add plugin to the list of TPM plugins in `.tmux.conf`:
 
-## Updates
+    set -g @plugin 'alexsaalberg/tmux-sideman'
 
-- [changelog](/docs/changelog.md) 
+Hit `prefix + I` to fetch the plugin and source it. You should now be able to
+use the plugin.
 
-- [planned](/docs/planned.md)
+### Manual Installation
+
+Clone the repo:
+
+    $ git clone https://github.com/alexsaalberg/tmux-sideman ~/clone/path
+
+Add this line to the bottom of `.tmux.conf`:
+
+    run-shell ~/clone/path/tmux_sidelib.tmux
+
+Reload TMUX environment:
+
+    # type this in terminal
+    $ tmux source-file ~/.tmux.conf
+
+You should now be able to use the plugin.
 
 ## Requirements
 
 - `tmux 1.8` or higher
 
+## Changes
+
+**v1.0**
+
+- Initial release.
+
+- Built on [tmux-sidelib](https://www.github.com/alexsaalberg/tmux-sidelib) version v0.2
+
+- Timeout functionality currently disabled.
+
 ## Other Stuff
 
-- [bash notes](/docs/bash_notes.md)
+- [tmux-sidelib](https://www.github.com/alexsaalberg/tmux-sidelib)
 
-- [tmux-sidebar](tmux-plugins/tmux-sidebar)
+- [tmux plugin manager](https://github.com/tmux-plugins/tpm)
+
+- [tmux-sidebar](https://www.github.com/tmux-plugins/tmux-sidebar) 
+    - Inspiration for tmux-notepane, tmux-sidelib, etc.
+    
+- [tmux-notepane](https://www.github.com/tmux-plugins/tmux-notepane) 
+  - Similar thing, but built using python and [libtmux](https://github.com/tmux-python/libtmux)
+
