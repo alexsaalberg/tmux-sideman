@@ -8,7 +8,9 @@ It's built using [tmux sidelib](https://www.github.com/alexsaalberg/tmux-sidelib
 
 If you are editing something in vim, and then hit `Prefix + M`, a new pane will open with the vim manpage in it.
 
-[Example use screenshot](screen.png)
+The tmux session will then look like this.
+
+![Example use screenshot](screen.png)
 
 ## How to use
 
